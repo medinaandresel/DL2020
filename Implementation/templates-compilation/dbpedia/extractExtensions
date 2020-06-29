@@ -1,0 +1,64 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dbo: <http://dbpedia.org/ontology/> .
+@prefix dbr: <http://dbpedia.org/resource/> .
+@prefix dbp: <http://dbpedia.org/> .
+@prefix local: <http://localhost:3030/dbpedia/sparql> .
+@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
+
+%%% TEST IF IRI IS AN OBJECT PROPERTY
+@source objProp[1] : sparql ( <http://dbpedia.org/sparql>, 'p', ' {{?p rdf:type owl:ObjectProperty .} UNION {?p rdf:type owl:DatatypeProperty .}}  ') .
+
+@source unat[2] : sparql ( <http://dbpedia.org/sparql>, 'A,b', ' {  ?b rdf:type ?A . } ') .
+@source binat[3] : sparql ( <http://dbpedia.org/sparql>, 'r,a,b', ' {?a ?r2 ?b . ?r2 owl:subPropertyOf* ?r . } ') .
+
+
+@source cisaT[2] : load-csv ("dbpedia/TBox/cisaT.csv") .
+@source risaT[2] : load-csv ("dbpedia/TBox/risaT.csv") .
+
+@source cisa[2] : load-csv ("dbpedia/refAxioms/cisaAllTemplates.csv") .
+@source risa[2] : load-csv ("dbpedia/refAxioms/risaAllTemplates.csv") .
+@source ddn[3] : load-csv ("dbpedia/refAxioms/ddnAllTemplates.csv") .
+@source unat2[2] : load-csv ("dbpedia/refAxioms/unAssertAllTemplates.csv") .
+
+%%%%% SIGNATURE TEMPLATES AND REF AXIOMS
+role(?R) :- risa(?R,?X).
+role(?X) :- risa(?R,?X).
+role(?R) :- ddn(?A,?B,?R).
+role(?R) :- inv(?R,?X).
+role(?X) :- inv(?R,?X).
+role(?X) :- cisa(?X,?Y), objProp(?X).
+role(?Y) :- cisa(?X,?Y), objProp(?Y).
+
+conc(?X) :- cisa(?X,?Y), ~ role(?X).
+conc(?Y) :- cisa(?X,?Y), ~ role(?Y).
+
+cst(?X) :- unat2(?U,?X).
+cst(?X) :- binat2(?U,?X, ?Y).
+cst(?Y) :- binat2(?U,?X, ?Y).
+
+
+%%%% TBOX REASONING
+unatT(?U, ?X) :- unatT(?U2, ?X), cisaT(?U2, ?U), concT(?U).
+unatT(?U, ?X) :- binatT(?U2, ?X, ?Y), cisaT(?U2, ?U), concT(?U).
+
+binatT(?U, ?X, ?Y) :- binatT(?U2, ?X, ?Y), risaT(?U2, ?U).
+binatT(?U, ?X, ?Y) :- binatT(?U2, ?Y, ?X), invT(?U2, ?U).
+
+binatT(?U, ?X, !Y) :- unatT(?U2, ?X), cisaT (?U2, ?U), roleT(?U).
+
+unatT(?U, ?X) :- unat(?U, ?X), conc(?U).
+binatT(?U, ?X, ?Y) :- binat(?U, ?X, ?Y), role(?U).
+
+roleT (?X) :- role(?X).
+roleT (?X) :- risaT(?X, ?Y).
+roleT (?Y) :- risaT(?X, ?Y).
+roleT (?X) :- invT(?X, ?Y).
+roleT (?Y) :- risaT(?X, ?Y).
+roleT (?Y) :- cisaT(?X, ?Y), objProp(?Y).
+roleT (?X) :- cisaT(?X, ?Y), objProp(?X).
+
+concT (?X) :- conc(?X).
+concT (?X) :- cisaT(?X, ?Y), ~ roleT(?X).
+concT (?Y) :- cisaT(?X, ?Y), ~ roleT(?Y).
+

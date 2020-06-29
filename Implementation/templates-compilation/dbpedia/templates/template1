@@ -1,0 +1,1 @@
+X,Y :- GEN{dbo:FilmFestival}(X) AND dbo:startDate(X,Y)

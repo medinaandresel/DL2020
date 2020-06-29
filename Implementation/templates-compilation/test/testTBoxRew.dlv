@@ -1,0 +1,69 @@
+
+
+%%%%%%%% TBOX REWRITING ENCODING TEST
+%%%%%%%% QUERY SPACE ENCODING:
+
+%%%%%%%% DERIVING QUERIES
+
+atomt1(U,null,null) :- unat(U,X),deriv(t1,U,null,null),conc(U).
+atomt1(U,null,null) :- binat(U,X,Y),deriv(t1,U,null,null),role(U).
+
+atomt1(U,X,null) :- unat(U,X),deriv(t1,U,X1,null),conc(U).
+atomt1(U,X,null) :- binat(U,X,Y),deriv(t1,U,X1,null),role(U).
+atomt1(U,null,X) :- binat(U,Y,X),deriv(t1,U,null,X1),role(U).
+atomt1(U,X,Y) :- binat(U,X,Y),deriv(t1,U,X1,Y1),role(U).
+
+
+
+atomt2(U,null,null) :- unat(U,X),deriv(t2,U,null,null),conc(U).
+atomt2(U,null,null) :- binat(U,X,Y),deriv(t2,U,null,null),role(U).
+
+atomt2(U,X,null) :- unat(U,X),deriv(t2,U,X1,null),conc(U).
+atomt2(U,X,null) :- binat(U,X,Y),deriv(t2,U,X1,null),role(U).
+atomt2(U,null,X) :- binat(U,Y,X),deriv(t2,U,null,X1),role(U).
+atomt2(U,X,Y) :- binat(U,X,Y),deriv(t2,U,X1,Y1),role(U). 
+
+
+query(Ut1,Ut2,Y) :- atomt1(Ut1,X,null),atomt2(Ut2,Y,X), Y != null.
+
+
+%q(X) :- query(stud,theaches,worker,X).
+
+%q(X)?
+
+%%%%%%% INPUT PSI
+join(t1,t2,v_X). join(t2,t1,v_X). nonAns(v_X). 
+spe(t1,stud,v_X,null). 
+spe(t2,theaches,v_Y,v_X). 
+
+conc(stud). role(theaches). 
+
+%%%%%% INPUT P
+
+%%%%%% INPUT T
+
+cisaT(r, stud). invT(theaches,r). role(r).  conc(prof). 
+cisaT(prof, theaches). conc(worker).
+
+
+%%%%% INPUT A
+
+unat(prof,X) :- Prof(X).
+unat(stud,X) :- Student(X).
+unat(worker,X) :- Worker(X).
+binat(theaches,X,Y) :-  Theaches(X,Y).
+
+Prof(an). Theaches(mary,john). Student(john). Worker(john).
+
+%%%%%% TBOX REWRITING RULES
+
+rewT (T,U,X,Y,0) :- deriv (T,U,X,Y).
+rewT (T,U,X,Y,L+1) :- rewT(T,U2,X,Y,L), cisaT(U,U2), 
+
+
+
+
+
+
+
+

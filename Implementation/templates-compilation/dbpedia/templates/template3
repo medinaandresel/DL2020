@@ -1,0 +1,1 @@
+X,Y :- GEN{dbo:Museum}(X) AND SPE{dbo:museum}(Y,X) AND SPE{dbo:Artwork}(Y) AND SPE{dul:hasLocation}(X,Z) AND Z=GEN{dbr:Paris}

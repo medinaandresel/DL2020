@@ -1,0 +1,16 @@
+<http://dbpedia.org/ontology/Continent>,<http://dbpedia.org/ontology/Country>,<http://dbpedia.org/ontology/isPartOf>
+<http://dbpedia.org/ontology/Country>,<http://dbpedia.org/ontology/City>,<http://dbpedia.org/ontology/isPartOf>
+<http://dbpedia.org/resource/France>,<http://dbpedia.org/resource/Paris>,<http://dbpedia.org/ontology/isPartOf>
+<http://dbpedia.org/resource/Paris>,<http://dbpedia.org/resource/Louvre>,<http://dbpedia.org/ontology/isPartOf>
+<http://dbpedia.org/ontology/Continent>,<http://dbpedia.org/ontology/Country>,<http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#isLocationOf>
+<http://dbpedia.org/ontology/Country>,<http://dbpedia.org/ontology/City>,<http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#isLocationOf>
+<http://dbpedia.org/resource/France>,<http://dbpedia.org/resource/Paris>,<http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#isLocationOf>
+<http://dbpedia.org/resource/Paris>,<http://dbpedia.org/resource/Louvre>,<http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#isLocationOf>
+<http://dbpedia.org/ontology/Continent>,<http://dbpedia.org/ontology/Country>,<http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasLocation>
+<http://dbpedia.org/ontology/Country>,<http://dbpedia.org/ontology/City>,<http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasLocation>
+<http://dbpedia.org/resource/France>,<http://dbpedia.org/resource/Paris>,<http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasLocation>
+<http://dbpedia.org/resource/Paris>,<http://dbpedia.org/resource/Louvre>,<http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasLocation>
+<http://dbpedia.org/ontology/Continent>,<http://dbpedia.org/ontology/Country>,<http://dbpedia.org/ontology/location>
+<http://dbpedia.org/ontology/Country>,<http://dbpedia.org/ontology/City>,<http://dbpedia.org/ontology/location>
+<http://dbpedia.org/resource/France>,<http://dbpedia.org/resource/Paris>,<http://dbpedia.org/ontology/location>
+<http://dbpedia.org/resource/Paris>,<http://dbpedia.org/resource/Louvre>,<http://dbpedia.org/ontology/location>

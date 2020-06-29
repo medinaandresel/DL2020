@@ -1,0 +1,52 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dbo: <http://dbpedia.org/ontology/> .
+@prefix dbr: <http://dbpedia.org/resource/> .
+@prefix dbp: <http://dbpedia.org/> .
+@prefix local: <http://localhost:3030/dbpedia/sparql> .
+@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
+
+%%%%% TEST FOR ROLES
+@source objProp[1] : sparql ( <http://dbpedia.org/sparql>, 'p', ' {{?p rdf:type owl:ObjectProperty .} UNION {?p rdf:type owl:DatatypeProperty .}}  ') .
+
+
+%%%%% LOADING COMPLETE EXTENSIONS 
+@source unat[2] : load-csv ("dbpedia/complExtension/unatExt.csv") .
+@source binat[3] : load-csv ( "dbpedia/complExtension/binatExt.csv" ) .
+
+%%%%% LOADING REF. AXIOMS
+@source cisa[2] : load-csv ("dbpedia/refAxioms/cisaAllTemplates.csv") .
+@source risa[2] : load-csv ("dbpedia/refAxioms/risaAllTemplates.csv") .
+@source ddn[3] : load-csv ("dbpedia/refAxioms/ddnAllTemplates.csv") .
+@source unat2[2] : load-csv ("dbpedia/refAxioms/unAssertAllTemplates.csv") .
+
+%%%%% SIGNATURE TEMPLATES AND REF AXIOMS
+role(?R) :- risa(?R,?X).
+role(?X) :- risa(?R,?X).
+role(?R) :- ddn(?A,?B,?R).
+role(?R) :- inv(?R,?X).
+role(?X) :- inv(?R,?X).
+role(?X) :- cisa(?X,?Y), objProp(?X).
+role(?Y) :- cisa(?X,?Y), objProp(?Y).
+
+conc(?X) :- cisa(?X,?Y), ~ role(?X).
+conc(?Y) :- cisa(?X,?Y), ~ role(?Y).
+
+cst(?X) :- unat2(?U,?X).
+cst(?X) :- binat2(?U,?X, ?Y).
+cst(?Y) :- binat2(?U,?X, ?Y).
+
+%%%%% ONE-STEP OPERATIONS
+op(?X,?Y) :- cisa(?Y,?X).
+op(?X,?Y) :- risa(?Y,?X).
+op(?X,?Y) :- inv(?Y,?X).
+op(?X,?Y) :- ddn(?X,?Y,?Z).
+op(?X,?Y) :- rup(?Y,?X,?Z).
+op(?X,?Y) :- unat2(?X,?Y).
+op(?X,?Y) :- binat2(?X,?Y,?Z).
+op(?X,?Z) :- binat2(?X,?Y,?Z).
+op(?X,?X) :- conc(?X).
+op(?Y,?Y) :- role(?Y).
+
+op(?X,?X) :- op(?X,?Y).
+op(?Y,?Y) :- op(?X,?Y).

@@ -1,0 +1,1 @@
+X,Y,Z :- SPE{dbo:Organisation}(X) AND GEN{dbo:foundationPlace}(X,Y) AND GEN{dbo:headquarter}(X,Z) AND SPE{dbo:isPartOf}(Z,U) AND SPE{dbo:isPartOf}(Y,U) AND U=GEN{dbr:Paris}

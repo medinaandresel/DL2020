@@ -1,0 +1,1 @@
+X :- GEN{dbo:FilmFestival}(X)  AND SPE{dul:hasLocation}(X,Z) AND Z=GEN{dbr:Paris}
