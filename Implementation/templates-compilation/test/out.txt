@@ -1,3 +1,0 @@
-DLV 2.0
-
-{#query(mary), #query(an)}
